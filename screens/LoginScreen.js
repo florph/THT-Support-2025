@@ -224,9 +224,13 @@ export default function LoginScreen() {
     setLoading(true);
 
     try {
-      await login(email.trim(), password);
+      const result = await login(email.trim(), password);
+      // login() resolves with { success, error } and does not throw on auth failure,
+      // so surface the returned error instead of silently doing nothing.
+      if (!result?.success) {
+        setValidationError(result?.error || 'Login failed. Please check your credentials and try again.');
+      }
     } catch (error) {
-      console.error('Login error:', error);
       setValidationError(error?.message || 'Unable to connect to THT Portal. Please try again.');
     } finally {
       setLoading(false);

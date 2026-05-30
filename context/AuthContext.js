@@ -82,7 +82,15 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        const message = data?.message || 'Login failed';
+        // Laravel returns useful detail in `errors` (422) or a plain `message`.
+        // Rate-limited logins come back as 429.
+        const fieldError = data?.errors
+          ? Object.values(data.errors).flat()[0]
+          : null;
+        const message =
+          response.status === 429
+            ? 'Too many login attempts. Please wait a minute and try again.'
+            : fieldError || data?.message || `Login failed (${response.status})`;
         setAuthState({ ...UNAUTHENTICATED, error: message });
         return { success: false, error: message };
       }
