@@ -2,7 +2,7 @@
   "expo": {
     "name": "THT Support",
     "slug": "tht-support",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "web": {
       "favicon": "./assets/favicon.png"
     },
@@ -37,7 +37,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tht.support",
-      "versionCode": 1
+      "versionCode": 3
     },
     "extra": {
       "eas": {
